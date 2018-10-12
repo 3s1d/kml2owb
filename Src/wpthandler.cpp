@@ -56,9 +56,9 @@ void Handler::end_element(const xml::string& name)
 
 			std::vector<Coord> poly;
 			if(std::getline(ss, token, ','))
-				tmp_wpt.pos.latitude = deg2rad(std::stof(token));
-			if(std::getline(ss, token, ','))
 				tmp_wpt.pos.longitude = deg2rad(std::stof(token));
+			if(std::getline(ss, token, ','))
+				tmp_wpt.pos.latitude = deg2rad(std::stof(token));
 			if(std::getline(ss, token, ','))
 				tmp_wpt.alt = std::stoi(token);
 
