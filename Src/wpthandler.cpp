@@ -137,7 +137,7 @@ bool Handler::writeWpt(const char *fname)
 				break;
 		}
 		snprintf(buffer, sizeof(buffer), "W  %s A %.10fº%c %.10fº%c 27-MAR-62 00:00:00 %d.000000 %s\r\n"
-				"w Waypoint,0,-1.0,16777215,255,1,7,,0.0,\r\n",
+				,//"w Waypoint,0,-1.0,16777215,255,1,7,,0.0,\r\n",
 				shortname, std::abs(rad2deg(wpt.pos.latitude)), wpt.pos.latitude >=0.0f?'N':'S',
 					std::abs(rad2deg(wpt.pos.longitude)), wpt.pos.longitude>=0.0f?'E':'W',
 				wpt.alt, wpt.name.c_str());
