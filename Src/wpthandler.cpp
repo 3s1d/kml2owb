@@ -103,7 +103,7 @@ bool Handler::writeOwb(const char *fname)
 	/* header */
 	tmp_wpt.writeFileHeader(myFile);
 
-	/* airspaces */
+	/* waypoints */
 	for(auto wpt : waypoints)
 		wpt.write(myFile);
 
@@ -115,4 +115,40 @@ bool Handler::writeOwb(const char *fname)
 }
 
 
+bool Handler::writeWpt(const char *fname)
+{
+	std::ofstream myFile (fname, std::ios::out);
+
+	/* header */
+	char buffer[1024];
+	snprintf(buffer, sizeof(buffer), "G  WGS 84\r\nU  1\r\n");
+	myFile.write(buffer, strlen(buffer));
+
+	/* waypoints */
+	for(auto wpt : waypoints)
+	{
+		char shortname[8];
+		for(int i=0, idx=0; i<6; idx++)
+		{
+			if(wpt.name.c_str()[idx] != ' ' && (int)wpt.name.c_str()[idx] < 0x80)
+				shortname[i++] = wpt.name.c_str()[idx];
+			shortname[i] = '\0';
+			if(wpt.name.c_str()[idx] == '\0')
+				break;
+		}
+		snprintf(buffer, sizeof(buffer), "W  %s A %.10fº%c %.10fº%c 27-MAR-62 00:00:00 %d.000000 %s\r\n"
+				"w Waypoint,0,-1.0,16777215,255,1,7,,0.0,\r\n",
+				shortname, std::abs(rad2deg(wpt.pos.latitude)), wpt.pos.latitude >=0.0f?'N':'S',
+					std::abs(rad2deg(wpt.pos.longitude)), wpt.pos.longitude>=0.0f?'E':'W',
+				wpt.alt, wpt.name.c_str());
+		myFile.write(buffer, strlen(buffer));
+	}
+
+	myFile.close();
+
+	std::cout << "Written " << waypoints.size() << " waypoints to WPT file" << std::endl;
+
+	return true;
+
+}
 

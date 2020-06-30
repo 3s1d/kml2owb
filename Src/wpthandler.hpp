@@ -47,6 +47,7 @@ public:
 
 	void test() { std::cout << "num: " << waypoints.size() << std::endl; }
 	bool writeOwb(const char *fname);
+	bool writeWpt(const char *fname);
 };
 
 }

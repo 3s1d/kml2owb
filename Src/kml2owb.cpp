@@ -65,6 +65,7 @@ int main(int argc, char* argv[])
 	}
 
 	wptHandler.writeOwb("world.owb");
+	wptHandler.writeWpt("world.wpt");
 
 	return 0;
 }
